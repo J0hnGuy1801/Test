@@ -1,8 +1,11 @@
 
-let notes = ['shake','shook'];
+let notesTitles = ['A', 'B', 'C']
+let notes = ['shake','shook', 'shaken'];
 
 
+let trashNotesTitles = []; 
 let trashNotes = [];
+
 
 
 function renderNotes() {
@@ -13,7 +16,6 @@ function renderNotes() {
         contentRef.innerHTML += getNoteTemplate(indexNote);
     }
 }
-
 
 
 function renderTrashNotes() {
@@ -27,12 +29,12 @@ function renderTrashNotes() {
 
 
 function getNoteTemplate(indexNote){
-    return `<p>+ ${notes[indexNote]} <button onclick="deleteNote(${indexNote})">x</button></p> `;
+    return `<p>+ title: ${notesTitles[indexNote]} -> ${notes[indexNote]} <button onclick="noteToTrash(${indexNote})">x</button></p> `;
 }
 
 
 function getTrashNoteTemplate(indexTrashNote){
-    return `<p>+ ${trashNotes[indexTrashNote]} <button onclick="deleteNote(${indexTrashNote})">x</button></p> `;
+    return `<p>+ title: ${trashNotesTitles[indexTrashNote]} -> ${trashNotes[indexTrashNote]} <button onclick="removeTrashNote(${indexTrashNote})">x</button></p> `;
 }
 
 function addNote() { 
@@ -49,11 +51,20 @@ noteInputRef.value = "";
 // notizen speichern
 
 
-function deleteNote(indexNote) {
+function noteToTrash(indexNote) {
 let trashNote = notes.splice(indexNote, 1);
-trashNotes.push(trashNote);
+trashNotes.push(trashNote[0]);
+let trashNoteTitle = notesTitles.splice(indexNote, 1);
+trashNotesTitles.push(trashNoteTitle[0]);
+
 renderNotes();
 renderTrashNotes();
+}
+
+function removeTrashNote(indexTrashNote) {
+    trashNotes.splice(indexTrashNote, 1);
+
+    renderTrashNotes();
 }
 
 // notizen archivieren
